@@ -35,7 +35,7 @@ variable "aaaa_records" {
 variable "mx_records" {
   type          = any
   description   = "(Optional) Specifies a map of MX records to create in the specified DNS zone."
-  default       = null
+  default       = {}
 }
 
 variable "zone_tags" {
