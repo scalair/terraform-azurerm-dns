@@ -15,10 +15,20 @@ output "zone_number_of_record_sets" {
 
 output "a_record_id" {
   description   = "A list of DNS A Record ID."
-  value         =   [ var.create_dns_zone ? (var.public_dns_zone ? azurerm_dns_a_record.a_record_public_with_zone.*.id : azurerm_private_dns_a_record.a_record_private_with_zone.*.id) : (var.public_dns_zone ? azurerm_dns_a_record.a_record_public_no_zone.*.id : azurerm_private_dns_a_record.a_record_private_no_zone.*.id)]
+  value         =  var.create_dns_zone ? (var.public_dns_zone ? azurerm_dns_a_record.a_record_public_with_zone.*.id : azurerm_private_dns_a_record.a_record_private_with_zone.*.id) : (var.public_dns_zone ? azurerm_dns_a_record.a_record_public_no_zone.*.id : azurerm_private_dns_a_record.a_record_private_no_zone.*.id)
 }
 
 output "a_record_fqdn" {
   description   = "A list of DNS A Record FQDN."
-  value         =   [ var.create_dns_zone ? (var.public_dns_zone ? azurerm_dns_a_record.a_record_public_with_zone.*.fqdn : azurerm_private_dns_a_record.a_record_private_with_zone.*.fqdn) : (var.public_dns_zone ? azurerm_dns_a_record.a_record_public_no_zone.*.fqdn : azurerm_private_dns_a_record.a_record_private_no_zone.*.fqdn)]
+  value         =  var.create_dns_zone ? (var.public_dns_zone ? azurerm_dns_a_record.a_record_public_with_zone.*.fqdn : azurerm_private_dns_a_record.a_record_private_with_zone.*.fqdn) : (var.public_dns_zone ? azurerm_dns_a_record.a_record_public_no_zone.*.fqdn : azurerm_private_dns_a_record.a_record_private_no_zone.*.fqdn)
+}
+
+output "aaaa_record_id" {
+  description   = "A list of DNS AAAA Record ID."
+  value         =  var.create_dns_zone ? (var.public_dns_zone ? azurerm_dns_aaaa_record.aaaa_record_public_with_zone.*.id : azurerm_private_dns_aaaa_record.aaaa_record_private_with_zone.*.id) : (var.public_dns_zone ? azurerm_dns_aaaa_record.aaaa_record_public_no_zone.*.id : azurerm_private_dns_aaaa_record.aaaa_record_private_no_zone.*.id)
+}
+
+output "aaaa_record_fqdn" {
+  description   = "A list of DNS AAAA Record FQDN."
+  value         =  var.create_dns_zone ? (var.public_dns_zone ? azurerm_dns_aaaa_record.aaaa_record_public_with_zone.*.fqdn : azurerm_private_dns_aaaa_record.aaaa_record_private_with_zone.*.fqdn) : (var.public_dns_zone ? azurerm_dns_aaaa_record.aaaa_record_public_no_zone.*.fqdn : azurerm_private_dns_aaaa_record.aaaa_record_private_no_zone.*.fqdn)
 }
