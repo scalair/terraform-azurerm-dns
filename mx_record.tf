@@ -1,5 +1,5 @@
 resource "azurerm_private_dns_mx_record" "mx_record_private_with_zone" {
-  count               = var.create_dns_zone ? (var.public_dns_zone ? 0 : 1) : 0
+  count               = var.mx_records == {} ? 0 : (var.create_dns_zone ? (var.public_dns_zone ? 0 : 1) : 0)
 
   zone_name           = var.zone_name
   resource_group_name = var.resource_group_name
@@ -8,7 +8,7 @@ resource "azurerm_private_dns_mx_record" "mx_record_private_with_zone" {
   ttl                 = lookup(var.mx_records, "ttl", 3600)
 
   dynamic "record" {
-    for_each          = var.mx_records.records
+    for_each          = lookup(var.mx_records, "records", {})
 
     content {
       preference        = record.value.preference
@@ -20,7 +20,7 @@ resource "azurerm_private_dns_mx_record" "mx_record_private_with_zone" {
 }
 
 resource "azurerm_dns_mx_record" "mx_record_public_with_zone" {
-  count               = var.create_dns_zone ? (var.public_dns_zone ? 1 : 0) : 0
+  count               = var.mx_records == {} ? 0 : (var.create_dns_zone ? (var.public_dns_zone ? 1 : 0) : 0)
 
   zone_name           = var.zone_name
   resource_group_name = var.resource_group_name
@@ -29,7 +29,7 @@ resource "azurerm_dns_mx_record" "mx_record_public_with_zone" {
   ttl                 = lookup(var.mx_records, "ttl", 3600)
 
   dynamic "record" {
-    for_each          = var.mx_records.records
+    for_each          = lookup(var.mx_records, "records", {})
 
     content {
       preference        = record.value.preference
@@ -41,7 +41,7 @@ resource "azurerm_dns_mx_record" "mx_record_public_with_zone" {
 }
 
 resource "azurerm_private_dns_mx_record" "mx_record_private_no_zone" {
-  count               = var.create_dns_zone ? 0 : (var.public_dns_zone ? 0 : 1)
+  count               = var.mx_records == {} ? 0 : (var.create_dns_zone ? 0 : (var.public_dns_zone ? 0 : 1))
 
   zone_name           = var.zone_name
   resource_group_name = var.resource_group_name
@@ -50,7 +50,7 @@ resource "azurerm_private_dns_mx_record" "mx_record_private_no_zone" {
   ttl                 = lookup(var.mx_records, "ttl", 3600)
 
   dynamic "record" {
-    for_each          = var.mx_records.records
+    for_each          = lookup(var.mx_records, "records", {})
 
     content {
       preference        = record.value.preference
@@ -60,7 +60,7 @@ resource "azurerm_private_dns_mx_record" "mx_record_private_no_zone" {
 }
 
 resource "azurerm_dns_mx_record" "mx_record_public_no_zone" {
-  count               = var.create_dns_zone ? 0 : (var.public_dns_zone ? 1 : 0)
+  count               = var.mx_records == {} ? 0 : (var.create_dns_zone ? 0 : (var.public_dns_zone ? 1 : 0))
 
   zone_name           = var.zone_name
   resource_group_name = var.resource_group_name
@@ -69,7 +69,7 @@ resource "azurerm_dns_mx_record" "mx_record_public_no_zone" {
   ttl                 = lookup(var.mx_records, "ttl", 3600)
 
   dynamic "record" {
-    for_each          = var.mx_records.records
+    for_each          = lookup(var.mx_records, "records", {})
 
     content {
       preference        = record.value.preference
